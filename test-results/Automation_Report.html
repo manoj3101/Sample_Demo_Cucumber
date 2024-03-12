@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automation Report</title>
+    <h1>Automation Report</h1>
+    <style>
+        .side-nav .side-nav-inner .side-nav-menu {
+            position: relative;
+            padding-left: 0px;
+            padding-top: 20px;
+            height: calc(-65px + 100vh);
+            list-style: none;
+            margin: 0px;
+            overflow: auto;
+            border-right: 1px solid rgb(233, 234, 236);
+        }
+
+        .container {
+            display: flex;
+            justify-content: flex-start;
+            /* Align content to the left */
+        }
+
+        .navigation {
+            margin-right: 20px;
+        }
+
+        .navigation button {
+            display: block;
+            margin-bottom: 5px;
+            width: 150px;
+        }
+
+        .section {
+            display: none;
+            justify-content: right;
+            /* Initially hide all sections */
+            width: 150%;
+            /* Adjust the width of the sections */
+        }
+
+        .section.active {
+            justify-content: right;
+            display: block;
+
+
+            /* Initially hide all sections */
+            width: 150%;
+            /* Display active section */
+        }
+
+        .title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .content {
+            margin-right: 100px;
+            display: flex;
+            flex-wrap: wrap;
+            height: 100;
+            width: 500;
+
+        }
+
+        .table-container {
+            flex-grow: 1;
+            margin: 10px;
+        }
+
+        .table-container table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid black;
+        }
+
+        .table-container table th,
+        .table-container table td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        caption {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="navigation">
+            <button onclick="showSection('dashboard')">DashBoard</button>
+            <button onclick="showSection('testSummary')">Test Summary Report</button>
+            <button onclick="showSection('automationMetrics')">Automation Metrics</button>
+            <button onclick="showSection('automationExecutionSummary')">Automation Execution Summary</button>
+            <button onclick="showSection('detailedSummary')">Detailed Summary</button>
+        </div>
+    </div>
+    <div class="content">
+        <div id="dashboard" class="section active">
+            <h2 class="head">Dashboard</h2>
+            <ul>
+                
+                    <li>
+                        <h3 onclick="toggleScenarios(this)">
+                            TC_EX_001
+                        </h3>
+                        <ul style="display: none;">
+                            
+                                <li>
+                                    <h4 onclick="toggleSteps(this)">
+                                        Discom Member Create CFP and Publishing the CFP. (Status: passed)
+                                    </h4>
+                                    <ul style="display: none;">
+                                        
+                                            <li>
+                                                <h6>
+                                                     (Status: passed) (Duration: 280328299)
+                                                </h6>
+                                            </li>
+                                            
+                                            <li>
+                                                <h6>
+                                                    User navigate to the Application and logged in as a discom user as initiator as per export case one (Status: passed) (Duration: 16513870300)
+                                                </h6>
+                                            </li>
+                                            
+                                            <li>
+                                                <h6>
+                                                    User started creating Call for Proposal CFP as an initiator as per export case one (Status: passed) (Duration: 24394144500)
+                                                </h6>
+                                            </li>
+                                            
+                                            <li>
+                                                <h6>
+                                                    Call for Proposal CFP should be Published successfully as per export case one (Status: passed) (Duration: 3219440200)
+                                                </h6>
+                                            </li>
+                                            
+                                            <li>
+                                                <h6>
+                                                     (Status: passed) (Duration: 486590300)
+                                                </h6>
+                                            </li>
+                                            
+                                    </ul>
+                                </li>
+                                
+                        </ul>
+                    </li>
+                    
+                    <li>
+                        <h3 onclick="toggleScenarios(this)">
+                            TC_IM_001
+                        </h3>
+                        <ul style="display: none;">
+                            
+                                <li>
+                                    <h4 onclick="toggleSteps(this)">
+                                        Discom Member Create CFP and Publishing the CFP. (Status: passed)
+                                    </h4>
+                                    <ul style="display: none;">
+                                        
+                                            <li>
+                                                <h6>
+                                                     (Status: passed) (Duration: 367865999)
+                                                </h6>
+                                            </li>
+                                            
+                                            <li>
+                                                <h6>
+                                                    User navigate to the Application and logged in as a discom user as initiator as per import case one (Status: passed) (Duration: 10141294099)
+                                                </h6>
+                                            </li>
+                                            
+                                            <li>
+                                                <h6>
+                                                    User started creating Call for Proposal CFP as an initiator as per import case one (Status: passed) (Duration: 24688358199)
+                                                </h6>
+                                            </li>
+                                            
+                                            <li>
+                                                <h6>
+                                                    Call for Proposal CFP should be Published successfully as per import case one (Status: passed) (Duration: 3349675899)
+                                                </h6>
+                                            </li>
+                                            
+                                            <li>
+                                                <h6>
+                                                     (Status: passed) (Duration: 419287500)
+                                                </h6>
+                                            </li>
+                                            
+                                    </ul>
+                                </li>
+                                
+                        </ul>
+                    </li>
+                    
+            </ul>
+        </div>
+        <div id="testSummary" class="section">
+            <h2 class="head">Test Summary Report</h2>
+            <table>
+                <caption>Test Summary Report</caption>
+                <tbody>
+                    <tr>
+                        <td>Environment Name</td>
+                        <td>[Your Environment Name]</td>
+                    </tr>
+                    <tr>
+                        <td>Start Date & Time</td>
+                        <td>[Your Start Date & Time]</td>
+                    </tr>
+                    <tr>
+                        <td>End Date & Time</td>
+                        <td>[Your End Date & Time]</td>
+                    </tr>
+                    <tr>
+                        <td>Test Type</td>
+                        <td>[Your Test Type]</td>
+                    </tr>
+                    <tr>
+                        <td>Test Duration</td>
+                        <td>[Your Test Duration]</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="automationMetrics" class="section">
+            <h2 class="head">Automation Metrics</h2>
+            <table>
+                <caption>Automation Metrics</caption>
+                <tbody>
+                    <tr>
+                        <td>Count</td>
+                        <td>[Your Count]</td>
+                    </tr>
+                    <tr>
+                        <td>Pass</td>
+                        <td>[Your Pass]</td>
+                    </tr>
+                    <tr>
+                        <td>Fail</td>
+                        <td>[Your Fail]</td>
+                    </tr>
+                    <tr>
+                        <td>Skipped</td>
+                        <td>[Your Skipped]</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="automationExecutionSummary" class="section">
+            <h2 class="head">Automation Execution Summary</h2>
+            <table>
+                <caption>Automation Execution Summary</caption>
+                <thead>
+                    <tr>
+                        <th>Browser</th>
+                        <th>Passed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Populate table rows dynamically -->
+                </tbody>
+            </table>
+        </div>
+        <div id="detailedSummary" class="section">
+            <h2 class="head">Detailed Summary</h2>
+            <div class="content">
+                <!-- Table 1: Most Commonly Failed Tests -->
+                <div class="table-container" style="order: 1;">
+                    <table>
+                        <caption>Most Commonly Failed Tests</caption>
+                        <thead>
+                            <tr>
+                                <th>Testcase Name</th>
+                                <th>Browser Version</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Populate table rows dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Table 2: Failed Tests Information -->
+                <div class="table-container" style="order: 2;">
+                    <table>
+                        <caption>Failed Tests Information</caption>
+                        <thead>
+                            <tr>
+                                <th>Testcase Name</th>
+                                <th>Browser Version</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Populate table rows dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Table 3: Skipped Test Information -->
+                <div class="table-container" style="order: 3;">
+                    <table>
+                        <caption>Skipped Test Information</caption>
+                        <thead>
+                            <tr>
+                                <th>Testcase Name</th>
+                                <th>Browser Version</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Populate table rows dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Table 4: Failed Tests Summary -->
+                <div class="table-container" style="order: 4;">
+                    <table>
+                        <caption>Failed Tests Summary</caption>
+                        <thead>
+                            <tr>
+                                <th>Testcase Name</th>
+                                <th>Browser Version</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Populate table rows dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="content"></div>
+    </div>
+    <script>
+        // function getScenarioStatusClass(status) {
+        //     if (status === "passed") {
+        //         return "status-green";
+        //     } else if (status === "failed") {
+        //         return "status-red";
+        //     } else {
+        //         return "status-orange";
+        //     }
+        // }
+
+        // function getStepStatusClass(status) {
+        //     if (status === "passed") {
+        //         return "status-green";
+        //     } else if (status === "failed") {
+        //         return "status-red";
+        //     } else {
+        //         return "status-orange";
+        //     }
+        // }
+        // JavaScript functions for toggling sections and getting step status class
+        function toggleScenarios(element) {
+            const scenarios = element.nextElementSibling;
+            scenarios.style.display = scenarios.style.display === "none" ? "block" : "none";
+        }
+
+
+        function toggleSteps(element) {
+            const steps = element.nextElementSibling;
+            if (steps.style.display === "none") {
+                steps.style.display = "block";
+            } else {
+                steps.style.display = "none";
+            }
+        }
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+        }
+        // Functions for showing/hiding sections
+        function showDashboard() {
+            showSection('dashboard');
+        }
+
+        function showTestSummary() {
+            showSection('testSummary');
+        }
+
+        function showAutomationMetrics() {
+            showSection('automationMetrics');
+        }
+
+        function showAutomationExecutionSummary() {
+            showSection('automationExecutionSummary');
+        }
+        function showDetailedSummary() {
+            showSection('detailedSummary');
+        }
+        // function showMostCommonlyFailedTests() {
+        //     showSection('mostCommonlyFailedTests');
+        // }
+
+        // function showSkippedTestInformation() {
+        //     showSection('skippedTestInformation');
+        // }
+
+        // function showFailedTestsInformation() {
+        //     showSection('failedTestsInformation');
+        // }
+
+        // function showFailedTestsSummary() {
+        //     showSection('failedTestsSummary');
+        // }
+    </script>
+</body>
+
+</html>
