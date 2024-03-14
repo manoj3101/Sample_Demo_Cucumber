@@ -1,5 +1,8 @@
 const { test, expect } = require('@playwright/test');
 const pageFixture = require("../../hooks/pageFixture");
+const data = require("../../helper/utils/data.json");
+const admin_data = require('../../helper/utils/admin_data.json');
+const SignUp = require('../Admin/SignUp');
 
 
 // Get the current date
@@ -34,6 +37,7 @@ class Payment_Approval {
     }
 
     async paymentApproval(org_name) {
+        await pageFixture.page.waitForTimeout(4000);
         //Search the organization name 
         await pageFixture.page.locator("//input[contains(@name,'search')]").fill(org_name);
 
@@ -57,7 +61,11 @@ class Payment_Approval {
 
         //Assert the Payment Message
         //Subscription plan for member JW Company has been approved successfully.
+        const message = await pageFixture.page.locator("//*[contains(text(),'Subscription plan for member").textContent();
+        console.log(`${message}`);
+        expect(message).toContain("Subscription plan for member");
 
     }
 
 }
+module.exports=Payment_Approval;

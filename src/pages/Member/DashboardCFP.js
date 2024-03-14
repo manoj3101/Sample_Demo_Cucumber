@@ -102,9 +102,9 @@ class DashboardCFP {
             case "Custom CFP":
                 await pageFixture.page.locator("//span[contains(text(),'" + chooseCFP + "')]").nth(0).click();
                 console.log(`Clicked ${chooseCFP}`);
-                await pageFixture.page.waitForTimeout(4000);
+                await pageFixture.page.waitForTimeout(3000);
                 await pageFixture.page.getByRole('textbox').setInputFiles('src/helper/utils/CFP.pdf');
-                await pageFixture.page.waitForTimeout(10000);
+                await pageFixture.page.waitForTimeout(6000);
                 break;
         }
         // await pageFixture.page.locator("//span[contains(text(),'Quick CFP')]").click();
@@ -371,6 +371,7 @@ class DashboardCFP {
             //console.log(textContent);
             if (textContent.includes(CFP)) {
                 console.log("-------------------My CFP---------------: " + CFP);
+                //(//span[contains(@class,'digital-time')]/following-sibling::div/button)[1]
                 await pageFixture.page.locator("(//span[contains(@class,'digital-time')]/following-sibling::div/button)[" + (i + 1) + "]").click();
                 console.log("                  ✔ Clicked Respond ✔                 ");
                 break;
