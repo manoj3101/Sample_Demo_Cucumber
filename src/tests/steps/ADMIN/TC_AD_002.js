@@ -12,6 +12,7 @@ const Home = require("../../../pages/Member/Home");
 const DashboardCFP = require("../../../pages/Member/DashboardCFP");
 const LOAManagement = require("../../../pages/Member/LOAManagement");
 const Manage_User = require('../../../pages/Member/Manage_User');
+const TransactionFee = require("../../../pages/Admin/TransactionFee");
 
 
 //setDefaultTimeout(120 * 1000);// Set global timeout for all actions
@@ -33,6 +34,7 @@ const home = new Home(pageFixture.page);
 const dashboardCFP = new DashboardCFP(pageFixture.page);
 const loaManagement = new LOAManagement(pageFixture.page);
 const manage_User = new Manage_User(pageFixture.page);
+const transactionFee = new TransactionFee(pageFixture.page);
 
 
 //Variables
@@ -84,7 +86,7 @@ Then('New user begins the registration process as per Admin case two', async fun
 //-------------------------------------------------------------------------------------------------------------------------
 
 Given('Admin User navigates to the application and logs in as an admin as per Admin case two', async function () {
-    
+
     await login.login(ad_data.admin, ad_data.admin_password); //Login as a admin 
     // await signUp.OTP(); //OTP Validation 
 
@@ -104,7 +106,7 @@ Then('Admin approves the payment and assigns rights to the new user as per Admin
     await payment_Approval.clickPaymentApproval(); //Payment Approval
     await payment_Approval.paymentApproval(org_name);
     await manage_Member.click_Manage_Member(); //Manage User - Rights
-    await manage_Member.member_rights(org_name, ad_data.AD_02.selectall, ad_data.AD_02.Home, ad_data.AD_02.Manage_User, ad_data.AD_02.FormatD, ad_data.AD_02.LOA_Generation, ad_data.AD_02.Award, ad_data.AD_02.Respond, ad_data.AD_02.LOA_Management);
+    await manage_Member.member_rights(org_name, ad_data.AD_02.selectall, ad_data.AD_02.Home, ad_data.AD_02.Registration, ad_data.AD_02.Manage_User, ad_data.AD_02.FormatD, ad_data.AD_02.LOA_Generation, ad_data.AD_02.Award, ad_data.AD_02.Respond, ad_data.AD_02.Initiate);
 
 });
 
@@ -112,6 +114,19 @@ Then('Admin approves the payment and assigns rights to the new user as per Admin
 //@                                                     Scenario 3
 //-------------------------------------------------------------------------------------------------------------------------
 
+Given('Admin navigate to the application and login and fetching the transaction fee formula as per admin case two', async function () {
+
+    await login.login(data.admin, data.admin_password); //Login to the admin user 
+
+    await transactionFee.click_Transaction_Fee(); //Click the transaction fee 
+
+    await transactionFee.fetch_Transaction_Fee(data.feeName, ad_data.AD_02.Quantum_value); // Fetch the transaction fee formula
+
+    await transactionFee.fetch_Success_Fee(data.successfee, ad_data.AD_02.Quantum_value); // Fetch the Success fee formula
+
+    await login.logout(); //Logout
+
+});
 Given('New User navigate to the Application and logged in as a discom user as initiator as per admin case two', async function () {
 
     //New user as a Initiator
