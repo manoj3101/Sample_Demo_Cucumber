@@ -1,25 +1,25 @@
 
 
 LOA	No.
-LOA/00921
-Date03-04-2024
+LOA/001013
+Date11-04-2024
 	
 To,
-TATA_2
+Strategic	Synergy_11190159
 19,	B2,	Emporio,	33,	10th	Ave,	Ashok	Nagar,	Chennai,	Tamil	Nadu	600083	Chennai	600083
-Donglegongle@yopmail.com
-Subject	:	Power	swap	arrangement	by	TickingMinds	via	CFP	Ref.	No.	24250403115.
-Ref:1.	e-Listing	24250403115	dated
-2.	Your	offer	dated	03-04-2024	on	NAME	portal
+ZoeClark_11190159@yopmail.com
+Subject	:	Power	swap	arrangement	by	TATA_1	via	CFP	Ref.	No.	24250403339.
+Ref:1.	e-Listing	24250403339	dated
+2.	Your	offer	dated	11-04-2024	on	NAME	portal
 	
 Dear	Sir,
-With	reference	to	the	above,	we	are	pleased	to	place	Letter	of	Award	(LoA)	in	favour	of	TATA_2,	as	per	below
-mentioned	arrangement.
-Supply	of	Power	from	TATA_2	to	TickingMinds
+With	reference	to	the	above,	we	are	pleased	to	place	Letter	of	Award	(LoA)	in	favour	of	Strategic
+Synergy_11190159,	as	per	below	mentioned	arrangement.
+Supply	of	Power	from	Strategic	Synergy_11190159	to	TATA_1
 UtilityPeriodDuration	(Hrs.)Quantum	(MW)
-TickingMinds03-04-2026	to	03-04-202600:30	-	04:3099998.0
+TATA_111-04-2026	to	11-04-202600:30	-	04:3099999.0
 	
-Return	of	Power	by	TickingMinds	to	TATA_2
+Return	of	Power	by	TATA_1	to	Strategic	Synergy_11190159
 UtilityPeriod
 Duration
 (Hrs.)
@@ -29,7 +29,9 @@ and	%	return
 percentage)
 Return	Ratio
 in	%
-TATA_203-04-2026	to	03-04-202608:30	-	12:001142811.42999.98
+Strategic
+Synergy_11190159
+11-04-2026	to	11-04-202608:30	-	12:001142822.85999.98
 	
 Delivery	Point
 The	delivery	point,	in	either	case,	shall	be	the	Regional	Periphery	of	Exporting
@@ -37,12 +39,12 @@ Utility.
 Settlement	rate	(Rs./kWh)IEX	DAM	RTC	Average	Price	(Rs./kWh)
 General	Terms	&	Conditions
 As	per	the	Framework	Agreement	/	As	per	the	Listing	Document	(Ref.	No.)
-24250403115
+24250403339
 	
 You	are	requested	to	acknowledge	the	receipt	of	this	LOA	&	give	your	acceptance	on	it.
 Regards,
 Yours	Faithfully,
-For	TickingMinds
+For	TATA_1
 	
 Authorised	Signatory
 (Other	Information	if	any)

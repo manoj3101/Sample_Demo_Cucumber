@@ -165,7 +165,7 @@ class DashboardCFP {
         // Calculating dates
         var importStartDate = addDays(currentDate, impStartDate);
         var importEndDate = addDays(currentDate, impEndDate);
-        console.log(importStartDate);
+        // console.log(importStartDate);
 
         // Function to format date to 'YYYY-MM-DD' format
         var formatDate = function (date) {
@@ -350,7 +350,7 @@ class DashboardCFP {
                 //await pageFixture.page.waitForTimeout(2000);
             }
             //Select all option
-            // await pageFixture.page.locator("//input[@id='flexCheckChecked']").click();
+            await pageFixture.page.locator("//input[@id='flexCheckChecked']").click();
         }
         else {
             await pageFixture.page.waitForTimeout(1500);
@@ -372,31 +372,32 @@ class DashboardCFP {
     }
 
     //Transaction fee verification
-    async transactionfee_Verify_Initiator(){
+    async transactionfee_Verify_Initiator() {
         //Get the text content from the Remaining listing
         const text = await pageFixture.page.locator("(//div[contains(@class,'modal-body')])[2]").textContent();
         console.log(`Remaining listing :${text}`);
 
         // Regular expression to extract values
-        const regex = /INR (\d+) .* (\d+\*\d+)/;
+        // const regex = /INR (\d+) .* (\d+\*\d+)/;
+        const regex = /INR (\d+(\.\d+)?) .* (\d+\*\d+(\.\d+)?)/;
 
         // Executing the regular expression on the text
         const matches = regex.exec(text);
 
         if (matches) {
             const amountOnHold = matches[1];
-            const successFee = matches[2];
+            const successFee = matches[3];
             console.log("Amount on hold:", amountOnHold);
             console.log("Success fee:", successFee);
             if (amountOnHold == TransactionFee.FormulaValue) {
-                console.log(`Expected transaction fee ${TransactionFee.FormulaValue} is equal to actual value ${amountOnHold}`);
+                console.log(`✔ Expected transaction fee ${TransactionFee.FormulaValue} is equal to actual value ${amountOnHold}`);
             } else {
-                console.log(`Expected not met actual `);
+                console.log(`X Expected not met actual `);
             }
             if (successFee == TransactionFee.setFormula) {
-                console.log(`Expected transaction fee ${TransactionFee.setFormula} is equal to actual value ${successFee}`);
+                console.log(`✔ Expected transaction fee ${TransactionFee.setFormula} is equal to actual value ${successFee}\n`);
             } else {
-                console.log(`Expected not met actual`);
+                console.log(`X Expected not met actual\n`);
             }
         } else {
             console.log("No matches found.");
@@ -438,31 +439,32 @@ class DashboardCFP {
     }
 
 
-    async transactionfee_Verify_Responder(){
+    async transactionfee_Verify_Responder() {
         //Get the text content from the Remaining listing
         const text = await pageFixture.page.locator("(//div[contains(@class,'modal-body')])[1]").textContent();
         console.log(`Remaining listing :${text}`);
 
         // Regular expression to extract values
-        const regex = /INR (\d+) .* (\d+\*\d+)/;
+        // const regex = /INR (\d+) .* (\d+\*\d+)/;
+        const regex = /INR (\d+(\.\d+)?) .* (\d+\*\d+(\.\d+)?)/;
 
         // Executing the regular expression on the text
         const matches = regex.exec(text);
 
         if (matches) {
             const amountOnHold = matches[1];
-            const successFee = matches[2];
+            const successFee = matches[3];
             console.log("Amount on hold:", amountOnHold);
             console.log("Success fee:", successFee);
             if (amountOnHold == TransactionFee.FormulaValue) {
-                console.log(`Expected transaction fee ${TransactionFee.FormulaValue} is equal to actual value ${amountOnHold}`);
+                console.log(`✔ Expected transaction fee ${TransactionFee.FormulaValue} is equal to actual value ${amountOnHold}`);
             } else {
-                console.log(`Expected not met actual `);
+                console.log(`X Expected not met actual `);
             }
             if (successFee == TransactionFee.setFormula) {
-                console.log(`Expected transaction fee ${TransactionFee.setFormula} is equal to actual value ${successFee}`);
+                console.log(`✔ Expected transaction fee ${TransactionFee.setFormula} is equal to actual value ${successFee}\n`);
             } else {
-                console.log(`Expected not met actual`);
+                console.log(`X Expected not met actual\n`);
             }
         } else {
             console.log("No matches found.");
@@ -678,24 +680,15 @@ class DashboardCFP {
         const time = hours + minutes / 60;
 
         // Display the result
-        console.log(`Initiator Difference: ${days} days, ${hours + minutes / 60} hours\n`);
+        // console.log(`Initiator Difference: ${days} days, ${hours + minutes / 60} hours\n`);
 
         //Calculation part 
         const energy_kwh = (days + 1) * time * quantum * 1000;
         console.log(`Expected Energy in KWH :${energy_kwh}`);
 
-        // If there is any decimal point we can use this.
-        // if (energy_kwh % 1 !== 0) {
-        //     const energy_kwh= energy_kwh.toFixed(1)
-        //     console.log("Energy in KWH: " + energy_kwh.toFixed(1));
-        //   } else {
-        //     const energy_kwh= energy_kwh.toFixed(0)
-        //     console.log("Energy in KWH: " + energy_kwh.toFixed(0));
-        //   }
-
         //Assertion 
         //import 
-        const content1 = await pageFixture.page.locator("((//div[contains(@class,'ng-star-inserted')])//h5)[6]").textContent();
+        const content1 = await pageFixture.page.locator("(//h5[contains(text(),'Period')])[1]").textContent();
         const Energy1 = await pageFixture.page.locator("(//td[7])[1]").textContent();
         console.log("<<<<<<<<<<<<<<<<<<<<" + content1 + ">>>>>>>>>>>>>>>>>>>>>>\n");
         console.log(`Actual Energy in KWH : ${Energy1}`);
@@ -732,7 +725,7 @@ class DashboardCFP {
         const time = hours + minutes / 60;
 
         // Display the result
-        console.log(`Responder Difference: ${days} days, ${hours + minutes / 60} hours\n`);
+        // console.log(`Responder Difference: ${days} days, ${hours + minutes / 60} hours\n`);
 
         const initiator_kwh = global.eng;
 
@@ -752,7 +745,7 @@ class DashboardCFP {
 
         //assert 
         //export
-        const content2 = await pageFixture.page.locator("((//div[contains(@class,'ng-star-inserted')])//h5)[7]").textContent();
+        const content2 = await pageFixture.page.locator("(//h5[contains(text(),'Period')])[2]").textContent();
         const Energy2 = await pageFixture.page.locator("(//td[8])[1]").textContent();
         const quantum = await pageFixture.page.locator("(//td[7])[2]").textContent();
         console.log("<<<<<<<<<<<<<<<<" + content2 + ">>>>>>>>>>>>>>>>>>>>\n");
@@ -822,7 +815,7 @@ class DashboardCFP {
 
 
     //Success fee verification
-    async successfee_Verify_Loa(){
+    async successfee_Verify_Loa() {
         //Get the text content from the Remaining listing
         const text = await pageFixture.page.locator("//span[contains(text(),'Success fee')]").textContent();
         const text1 = await pageFixture.page.locator("(//span[contains(text(),'Success Fee Debited')]//following::span)[1]").textContent();
@@ -831,7 +824,8 @@ class DashboardCFP {
         console.log(`Success Fee :${text1}`);
 
         // Regular expression to extract values
-        const regex = /INR (\d+)/;
+        // const regex = /INR (\d+)/;
+        const regex = /INR (\d+(\.\d+)?)/;
 
         // Executing the regular expression on the text
         const matches = regex.exec(text1);
@@ -840,9 +834,9 @@ class DashboardCFP {
             const successFee = matches[1];
             console.log("Actual Success fee:", successFee);
             if (successFee == TransactionFee.successFormulaValue) {
-                console.log(`Expected Success fee ${ TransactionFee.successFormulaValue} is equal to actual value ${successFee}`);
+                console.log(`✔ Expected Success fee ${TransactionFee.successFormulaValue} is equal to actual value ${successFee}`);
             } else {
-                console.log(`Expected not met actual`);
+                console.log(`X Expected not met actual`);
             }
         } else {
             console.log("No Success fee matches found.");
@@ -1106,6 +1100,36 @@ class DashboardCFP {
 
     }
 
+
+    //verify loa couldn't generate if LOA Generation is uncheck 
+    async generateLOA_Access_Denied() {
+        //click the Generate LOA icon & proceed with LOA
+        const LOA = await pageFixture.page.locator("//a[contains(text(),'Generate LOA')]");
+        if (await LOA.isVisible()) {
+            const expire_Time = await pageFixture.page.locator("//span[contains(@class,'badge fw-600 bg-danger text-white ng-star-inserted')]").textContent();
+            console.log(expire_Time);
+            expect(expire_Time).toContain("Expires");
+            await LOA.click();
+            await pageFixture.page.getByRole('button', { name: /Yes/i }).click();
+            console.log("-------------Successfully Navigated to Generate LOA Page----------");
+        }
+        else {
+            console.log("-------------No Generate LOA is Visible----------");
+        }
+
+        //switch to the tab
+        const tabSwitch = new tabSwitcher();
+        await tabSwitch.switchToTab("loi");
+
+        //asset the message Acccess Denied 
+        await pageFixture.page.waitForTimeout(3000);
+        console.log("Waiting for locator....................");
+        const loa_assert = await pageFixture.page.locator("//h2[normalize-space()='Access Denied']").textContent();
+        const loa_assert1 = await pageFixture.page.locator("//*[contains(text(),'Access Denied')]/following::p").textContent();
+        expect(loa_assert).toContain("Access Denied");
+        console.log(`X ${loa_assert} for LOA Generation`);
+        console.log(`X ${loa_assert1}`);
+    }
 
     // Helper function to clear files in the folder
     async clearFolder(folderPath) {
