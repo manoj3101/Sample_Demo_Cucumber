@@ -3,10 +3,11 @@ const pageFixture = require("../../hooks/pageFixture");
 const data = require("../../helper/utils/data.json");
 const admin_data = require('../../helper/utils/admin_data.json');
 const SignUp = require('../Admin/SignUp');
-
+const Wrapper = require('../../helper/wrapper/assert');
 
 // Get the current date
 const currentDate = new Date();
+const assert = new Wrapper();
 
 // Extract year, month, and day
 const year = currentDate.getFullYear();
@@ -16,18 +17,9 @@ const day = String(currentDate.getDate()).padStart(2, '0');
 // Form the date string in 'YYYY-MM-DD' format
 const formattedDate = `${year}-${month}-${day}`;
 
-//console.log(formattedDate); // Output example: 2024-02-27
-
-
-
 
 
 class Member_Assistance {
-    // Constructor
-    // constructor(page){
-    //     this.page =page;
-    // }
-
 
 
     trans_id =(Math.floor(Math.random() * 900000000) + 100000000).toString(); 
@@ -37,8 +29,8 @@ class Member_Assistance {
     async clickMemberAssitance() {
         
         const home = await pageFixture.page.locator("(//span[contains(@class,'m-icon ng-star-inserted')])[6]"); //Hover to the Member Assitance
-        await home.hover();
-        await pageFixture.page.locator("//span[contains(text(),'Member Assistance')]").click(); //Click the Member Assitance
+        await home.hover({timeout:40000});
+        await pageFixture.page.locator("//span[contains(text(),'Member Assistance')]").click({timeout:40000}); //Click the Member Assitance
     }
 
     async subscription_Plan_Selection(org_name) {
@@ -54,9 +46,6 @@ class Member_Assistance {
 
         //Row Lenght 
         const rowLenght = await pageFixture.page.$$("//tbody//tr");
-        // console.log(`Number of Row found in Member Assistance: ${rowLenght.length}`);
-
-        //Subscription Plan ==>//tbody/tr/td[8]  Xpath  List of xpath 
 
         //Click the Org_name
         await pageFixture.page.locator("//a[contains(text(),'" + org_name + "')]").click();
@@ -66,9 +55,7 @@ class Member_Assistance {
         await pageFixture.page.waitForTimeout(2000);
 
 
-        //Choose a Right Subscription Plan for Your Business
-        //Priority Test
-        // await pageFixture.page.locator("(//var[contains(text(),'Choose')])[1]").click();
+    
         //privilege
         await pageFixture.page.locator("(//var[contains(text(),'Choose')])[2]").click({timeout:40000});
 
@@ -98,9 +85,8 @@ class Member_Assistance {
 
         //Assert Part 
         //Subscription plan has been assigned successfully and is pending for approval, kindly check and approve the plan.
-        const message = await pageFixture.page.locator("//*[contains(text(),'Subscription plan has been assigned successfully')]").textContent();
-        console.log(`✔ ${message}`);
-        expect(message).toContain("Subscription plan has been assigned successfully");
+        await assert.assertToContains("//*[contains(text(),'Subscription plan has been assigned successfully')]","Subscription plan has been assigned successfully");
+
 
     }
 

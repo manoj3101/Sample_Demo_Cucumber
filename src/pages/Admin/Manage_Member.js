@@ -4,9 +4,11 @@ const data = require("../../helper/utils/data.json");
 const admin_data = require('../../helper/utils/admin_data.json');
 const SignUp = require('../Admin/SignUp');
 const RandomFunction = require('../../helper/utils/RandomFunction');
+const Wrapper = require('../../helper/wrapper/assert');
 
 //Object Instance
 const randomFunction = new RandomFunction();
+const assert = new Wrapper();
 
 
 
@@ -27,7 +29,7 @@ class Manage_Member {
         await pageFixture.page.locator("//span[contains(text(),'Manage Member')]").click();
     }
 
-    async approve_Member(org_name) {
+    async approve_Member(org_name, memberApproveOrReject) {
 
         await pageFixture.page.waitForTimeout(3000);
         //Search organization name 
@@ -40,60 +42,46 @@ class Manage_Member {
         await pageFixture.page.getByRole('button', { name: /Search/i }).click();
         await pageFixture.page.waitForTimeout(4000);
 
-        //check the row   //tbody/tr    if the row is one then do  
-        //(//tbody/tr//td)[13]  ==> Action text content
-
-        //(//tbody/tr//td)[6] ==> view 
+        
 
         // List of row
         const elements = await pageFixture.page.$$("//tbody/tr");
 
-        // Output the number of row elements found
-        // console.log(`Number of Row elements found: ${elements.length}`);
-
-        //If it has multiple row
-        // for (let i = 0; i < elements.length; i++) {
-        //     const name = await pageFixture.page.locator("(//tbody/tr/td[2])[" + i + "]").textContent();
-        //     if (name.includes(user_name)) {
-        //         await pageFixture.page.locator("(//*[contains(text(),'View')])[" + i + "]").click();
-        //     }
-
-        // }
 
         //Click the View Action 
         await pageFixture.page.locator("//a[contains(text(),'View')]").click();
 
         //Assert the alertmsg Message 
-        const alertmsg_assert = await pageFixture.page.locator("//*[contains(text(),'Registration pending for approval')]").textContent();
-        expect(alertmsg_assert).toContain("Registration pending for approval");
-        console.log(`✔ ${alertmsg_assert}`);
-
-
+        await assert.assertToContains("//*[contains(text(),'Registration pending for approval')]", "Registration pending for approval");
         await pageFixture.page.waitForTimeout(4000);
+
         // //Assert the company name 
         const cmp_name = await pageFixture.page.locator("//input[@id='orgname']").textContent();
         // expect(cmp_name).toContain(org_name);
-        // console.log(`Organization name : ${cmp_name}`);
 
-        //click the button 
-        await pageFixture.page.getByRole('button', { name: /Approve/i }).click();  // Reject False case
-
-        //click yes9
-        await pageFixture.page.getByRole('button', { name: /Yes/i }).click();
-
-        //Assert the congratulation
-        //Assert the OTP Message 
-        const congratsmsg = await pageFixture.page.locator("//h4[@id='modal-basic-title']").textContent();
-        expect(congratsmsg).toContain("Congratulations");
-        console.log(`✔ ${congratsmsg}`);
-
-        // console.log(await pageFixture.page.locator("//b[contains(text(),'Member')]/..").first().textContent());
-        console.log(await pageFixture.page.locator("//div[@class='modal-body']").textContent());
+        if (memberApproveOrReject) {
+            //click the button 
+            await pageFixture.page.getByRole('button', { name: /Approve/i }).click();
+            //click yes
+            await pageFixture.page.getByRole('button', { name: /Yes/i }).click();
+            //Assert the congratulation
+            //Assert the OTP Message 
+            await assert.assertToContains("//h4[@id='modal-basic-title']", "Congratulations");
 
 
-        //Close the Congratulations Pop Up by clicking
-        await pageFixture.page.locator("//i-feather[@name='x']//*[name()='svg']").click();
-        await pageFixture.page.waitForTimeout(3000);
+            //Close the Congratulations Pop Up by clicking
+            await pageFixture.page.locator("//i-feather[@name='x']//*[name()='svg']").click();
+            await pageFixture.page.waitForTimeout(3000);
+        }
+        else {
+            // Reject False case
+            await pageFixture.page.locator('//textarea[@formcontrolname="documentRemarks"]').fill("Rejected");
+            await pageFixture.page.getByRole('button', { name: /Reject/i }).click();  // Reject False case
+            //click yes
+            await pageFixture.page.getByRole('button', { name: /Yes/i }).click();
+            //Registration form for member Agile Solutions_08144319 has been rejected successfully.
+            await assert.assertToContains("//*[contains(text(),'rejected successfully')]", "rejected successfully");
+        }
     }
 
 
@@ -109,8 +97,8 @@ class Manage_Member {
 
         //Click the Search  Button
         await pageFixture.page.getByRole('button', { name: /Search/i }).click();
-
         await pageFixture.page.waitForTimeout(3000);
+
         //Click the Rights Action 
         await pageFixture.page.locator("//a[contains(text(),'Rights')]").click();
         await pageFixture.page.waitForTimeout(3000);
@@ -189,9 +177,7 @@ class Manage_Member {
 
         //Assert Part 
         //Required previliges have been assigned to the user
-        const message = await pageFixture.page.locator("//*[contains(text(),'Required previliges have been assigned to the user')]").textContent();
-        console.log(`✔ ${message}`);
-        expect(message).toContain("Required previliges have been assigned to the user");
+        await assert.assertToContains("//*[contains(text(),'Required previliges have been assigned to the user')]", "Required previliges have been assigned to the user");
         await pageFixture.page.waitForTimeout(5000);
     }
 

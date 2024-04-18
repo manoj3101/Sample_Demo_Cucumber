@@ -2,9 +2,12 @@ const RandomFunction = require("../../helper/utils/RandomFunction");
 const { test, expect } = require('@playwright/test');
 const data = require("../../helper/utils/data.json");
 const pageFixture = require("../../hooks/pageFixture");
+const Wrapper = require('../../helper/wrapper/assert');
 
 //Object Instance
 const randomFunction = new RandomFunction();
+const assert = new Wrapper();
+
 //Get Current Date
 const now = new Date();
 const dateString = `${now.getDate().toString().padStart(2, '0')}`;
@@ -76,7 +79,6 @@ class SignUp {
         await pageFixture.page.waitForTimeout(3000);
         await pageFixture.page.locator(this.sign_up).click({ timeout: 40000, waitUntil: 'load' }); //Click signUp Link
         await pageFixture.page.waitForTimeout(2000);
-        console.log("Page Title :" + await pageFixture.page.title());
         await pageFixture.page.locator(this.fname).fill(this.f_name); //Fill First name
         await pageFixture.page.locator(this.lname).fill(this.l_name); //Fill Last name
         await pageFixture.page.locator(this.mobileno).fill(this.phone_no); //Mobile number
@@ -94,10 +96,9 @@ class SignUp {
         console.log(`Email_ID : ${this.email_id}`);
         console.log(`Organization name : ${this.org_name}\n`);
 
-        //Assert the OTP Message 
-        const otp_assert = await pageFixture.page.locator("//*[contains(text(),'SMS Verified Successfully')]").textContent();
-        expect(otp_assert).toContain("SMS Verified Successfully");
-        console.log(`✔ ${otp_assert}`);
+        
+
+        await assert.assertToContains("//*[contains(text(),'SMS Verified Successfully')]","SMS Verified Successfully");
 
         console.log(`✔ SignUp have been Successfully Completed`);
 
@@ -120,7 +121,6 @@ class SignUp {
         await pageFixture.page.locator(this.otp12).fill("1");
         await pageFixture.page.click(this.validate_otp, { timeout: 40000 }); //Click Validate OTP
 
-        console.log(`✔ OTP Validated Successfully`);
         await pageFixture.page.waitForTimeout(3000);
     }
 
@@ -148,9 +148,7 @@ class SignUp {
         await pageFixture.page.click(this.Change_password, { timeout: 40000 }); //Click Change Button
 
         //Assert the changepass Message 
-        const changepass_assert = await pageFixture.page.locator("//*[contains(text(),'Password changed successfully')]").textContent();
-        expect(changepass_assert).toContain("Password changed successfully");
-        console.log(`✔ ${changepass_assert}\n`);
+        await assert.assertToContains("//*[contains(text(),'Password changed successfully')]","Password changed successfully");
 
         await pageFixture.page.click(this.TFA_OTP); //Next Step is to click OTP Two Factor Autentication
         await pageFixture.page.getByRole('button', { name: /Yes/i }).click();
@@ -159,7 +157,6 @@ class SignUp {
         // expect(TFA_assert).toContain("Please check your OTP via email and sms");
         await pageFixture.page.waitForTimeout(2000);
         await this.OTP();
-        console.log(`✔ OTP Two Factor Autentication Completed\n`);
     }
 
     async inactiveTFA(){
@@ -170,9 +167,7 @@ class SignUp {
         await pageFixture.page.getByRole('button', { name: /Yes/i }).click();
         await this.OTP();
          //Assert the changepass Message 
-         const assert = await pageFixture.page.locator("//*[contains(text(),'Two Factor Auth Type-NA Enabled Successfully')]").textContent();
-         expect(assert).toContain("Two Factor Auth Type-NA Enabled Successfully");
-         console.log(`✔ ${assert}\n`);
+         await assert.assertToContains("//*[contains(text(),'Two Factor Auth Type-NA Enabled Successfully')]","Two Factor Auth Type-NA Enabled Successfully");
 
     }
 

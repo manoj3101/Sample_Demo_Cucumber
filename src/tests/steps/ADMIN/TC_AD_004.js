@@ -94,7 +94,7 @@ Given('Admin User navigates to the application and logs in as an admin as per Ad
 Then('Admin approves the new discom user and assigns a subscription plan as per Admin case four', async function () {
 
     await manage_Member.click_Manage_Member(); //Manage Member
-    await manage_Member.approve_Member(org_name);  //Member assitance
+    await manage_Member.approve_Member(org_name, ad_data.AD_04.Manage_member);  //Member assitance
     await member_Assistance.clickMemberAssitance();
     await member_Assistance.subscription_Plan_Selection(org_name); //Subscription Plan Selection
 
@@ -103,7 +103,7 @@ Then('Admin approves the new discom user and assigns a subscription plan as per 
 Then('Admin approves the payment and assigns rights to the new user as per Admin case four', async function () {
 
     await payment_Approval.clickPaymentApproval(); //Payment Approval
-    await payment_Approval.paymentApproval(org_name);
+    await payment_Approval.paymentApproval(org_name, ad_data.AD_04.Payment_approval);
     await manage_Member.click_Manage_Member(); //Manage User - Rights
     await manage_Member.member_rights(org_name, ad_data.AD_04.selectall, ad_data.AD_04.Home, ad_data.AD_04.Registration, ad_data.AD_04.Manage_User, ad_data.AD_04.FormatD, ad_data.AD_04.LOA_Generation, ad_data.AD_04.Award, ad_data.AD_04.Respond, ad_data.AD_04.Initiate);
 });
@@ -111,14 +111,6 @@ Then('Admin approves the payment and assigns rights to the new user as per Admin
 //-------------------------------------------------------------------------------------------------------------------------
 //@                                                     Scenario 3
 //-------------------------------------------------------------------------------------------------------------------------
-Given('Admin navigate to the application and login and fetching the transaction fee formula as per admin case four', async function () {
-
-    await login.login(data.admin, data.admin_password);
-    await transactionFee.click_Transaction_Fee(); //Click the transaction fee 
-    await transactionFee.fetch_Transaction_Fee(data.feeName, ad_data.AD_04.Quantum_value); // Fetch the transaction fee formula
-    await login.logout(); //Logout
-
-});
 
 Given('New User navigate to the Application and logged in as a discom user as initiator as per admin case four', async function () {
 
@@ -376,11 +368,27 @@ Given('User started creating Call for Proposal CFP as an initiator as per admin 
 //@                                                     Scenario 10
 //-------------------------------------------------------------------------------------------------------------------------
 
-Given('Verify New User couldn\'t able to  Respond for a CFP created by User as per admin case four', async function () {
+Given('New User navigate to the Application and logged in as a discom user as Responder as per admin case four', async function () {
 
     //New user as a Responder
     console.log("-----------------------------------------RESPONDER-----------------------------------------");
     await login.login(email_id, password);
 
+});
+
+Given('New User can not Response CFP successfully as per admin case four', async function () {
+
+    await home.clickCallForPropsal();
+
+    await dashboardCFP.clickresponder();
+
+    await pageFixture.page.waitForTimeout(90 * 1000);
+
+    console.log("Global CFP: " + cfpNumber);
+
+    await dashboardCFP.place_Respond(cfpNumber, ad_data.AD_04.minQuantumValue1, ad_data.AD_04.ReturnValue1);
+
 
 });
+
+

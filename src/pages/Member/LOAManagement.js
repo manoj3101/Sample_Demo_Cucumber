@@ -5,12 +5,14 @@ const pdf = require('pdf-parse');
 const fs = require('fs').promises;
 const DashboardCFP = require("../../pages/Member/DashboardCFP");
 const RandomFunction = require('../../helper/utils/RandomFunction');
+const Wrapper = require('../../helper/wrapper/assert');
 
 
 //Object Instance
 const randomFunction = new RandomFunction();
 const dashboardCFP = new DashboardCFP();
 const currentDate = new Date();
+const assert = new Wrapper();
 
 // Get day, month, and year
 const day = String(currentDate.getDate()).padStart(2, '0');
@@ -58,22 +60,15 @@ class LOAManagement {
         //Document Verification
         await this.LOA_documentverification(CFP, imp_start_date, imp_end_date, imp_start_time, imp_end_time, quantum, exp_start_date, exp_end_date, exp_start_time, exp_end_time, returnpercent, Settlement_Price)
 
-        // //LOA Acceptance Deadline
-        // const time = await pageFixture.page.locator("//small//small").textContent();
-        // console.log(`LOA Acceptance timeline : ${time}`);
-
-        //TimeLine Functionality
-        //LOA Acceptance Timeline
+      
         const time = await pageFixture.page.locator("(//div//small)[1]").textContent();
-        console.log(`LOA Acceptance Timeline  : ${time}`);
+       
 
         const loaAcceptanceMins = randomFunction.addMinutesToCurrentTime(time);
-        console.log("LOA Acceptance Added minutes:", loaAcceptanceMins);
+       
 
         const addedLOAAcceptanceTime = parseInt(loa_acceptance_mins) + DashboardCFP.loaIssuanceMins;
-        // if (addedLOAAcceptanceTime >= 60) {
-        //     addedLOAAcceptanceTime %= 60;
-        // }
+       
         if (loaAcceptanceMins === addedLOAAcceptanceTime || loaAcceptanceMins === addedLOAAcceptanceTime - 1) {
             console.log(`Contarct Awarding time is added to Loa Issuance Time ${loaAcceptanceMins} equals ${addedLOAAcceptanceTime}`);
         }
@@ -123,7 +118,7 @@ class LOAManagement {
         const parsedData = await pdf(dataBuffer);
         const text = parsedData.text;
         // Now you can use the extracted text
-        console.log(`Text format Content are : ${text}`);
+      
 
         // Write the parsed text content to a text file for reference
         await fs.writeFile('src/helper/utils/TextDocuments/data.txt', text); // Specify the correct file path
@@ -150,11 +145,11 @@ class LOAManagement {
         const line_15 = `Dear	Sir,`;
         const line_16 = `With	reference	to	the	above,	we	are	pleased	to	place	Letter	of	Award	(LoA)	in	favour	of	${DashboardCFP.Utility_2},	as	per`;
         const line_17 = `below	mentioned	arrangement.`;
-        const line_18 = `Supply	of	Power	by	${DashboardCFP.Utility_1}	to	${DashboardCFP.Utility_2}`;
+        const line_18 = `Supply	of	Power	by	${DashboardCFP.Utility_2}	to	${DashboardCFP.Utility_1}`;
         const line_19 = `UtilityPeriodDuration	(Hrs.)Quantum	(MW)`;
         const line_20 = `${DashboardCFP.Utility_1}${imp_start_date.split('-').reverse().join('-')}	to	${imp_end_date.split('-').reverse().join('-')}${imp_start_time}	-	${imp_end_time}${quantum}`;
 
-        const line_21 = `Return	of	Power	from	${DashboardCFP.Utility_2}	to	${DashboardCFP.Utility_1}`;
+        const line_21 = `Return	of	Power	from	${DashboardCFP.Utility_1}	to	${DashboardCFP.Utility_2}`;
         const line_22 = `UtilityPeriod`;
         const line_23 = `Duration`;
         const line_24 = `(Hrs.)`;
@@ -241,8 +236,7 @@ class LOAManagement {
         const dataBuffer = await fs.readFile(filePath); // Use async version of readFile
         const parsedData = await pdf(dataBuffer);
         const text = parsedData.text;
-        // Now you can use the extracted text
-        console.log(`\nText format Content are : ${text}`);
+       
 
         // Write the parsed text content to a text file for reference
         await fs.writeFile('src/helper/utils/TextDocuments/data.txt', text); // Specify the correct file path
@@ -344,7 +338,7 @@ class LOAManagement {
         //Assertion 
         const loa_assert = await pageFixture.page.locator("//*[contains(text(),'Loa is rejected successfully.')]").textContent();
         expect(loa_assert).toContain("Loa is rejected successfully.");
-        console.log("----------------Loa is rejected successfully----------------");
+        console.log("----------------LOA is rejected successfully----------------");
 
     }
 
@@ -383,7 +377,6 @@ class LOAManagement {
         // Generate a random 6 or 7 digit number
         let randomNumber = (Math.floor(Math.random() * 9000000) + 1000000).toString();
         this.application_no = randomNumber;
-        console.log(`Application Number : ${this.application_no}`);
 
         //Application Number
         await pageFixture.page.getByPlaceholder('Search Organization').fill(this.application_no);
@@ -392,12 +385,10 @@ class LOAManagement {
         //Value = YES | NO 
         await pageFixture.page.locator("//Select[@formcontrolname='transaction_under_gtam']").selectOption({ value: gtam });
 
-        //Source of generation is solar/non-solar/hydro 
-        //Value = SOLAR || NON-SOLAR || HYDRO || NA
+
         await pageFixture.page.locator("//Select[@formcontrolname='source_generation']").selectOption({ value: source });
 
-        //Whether the Transaction is for meeting RPO obligation
-        //Value = YES | NO | NA
+       
         await pageFixture.page.locator("//Select[@formcontrolname='rpo_obligation']").selectOption({ value: rpo });
 
         //Granting T-GNA/T-GNARE exigency application
@@ -418,9 +409,8 @@ class LOAManagement {
         //Confirm Yes
         await pageFixture.page.getByRole('button', { name: ' Yes ' }).click();
 
-        const message = await pageFixture.page.locator("//*[contains(text(),'Format-D have been generated successfully')]").textContent();
-        console.log(`${message}`);
-        await expect(message).toContain("Format-D have been generated successfully");
+        //Assert 
+        await assert.assertToContains("//*[contains(text(),'Format-D have been generated successfully')]","Format-D have been generated successfully");
         await pageFixture.page.waitForTimeout(2000);
         console.log("----------------Format-D Generated Successfully ----------------");
 

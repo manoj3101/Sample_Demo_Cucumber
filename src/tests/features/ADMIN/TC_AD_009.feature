@@ -1,4 +1,4 @@
-Feature: TC_AD_002
+Feature: TC_AD_009
 
   Scenario: New Member Signing Up for the OTC Platform
     Given New user navigates to the application and initiates the sign-up process as per Admin case nine
@@ -11,7 +11,6 @@ Feature: TC_AD_002
     Then Admin approves the payment and assigns rights to the new user as per Admin case nine
 
   Scenario: New Discom Member Create CFP and Publishing the CFP.
-    Given Admin navigate to the application and login and fetching the transaction fee formula as per admin case nine
     Given New User navigate to the Application and logged in as a discom user as initiator as per admin case nine
     And New User started creating Call for Proposal CFP as an initiator as per admin case nine
     Then Call for Proposal CFP should be Published successfully as per admin case nine
@@ -23,22 +22,7 @@ Feature: TC_AD_002
 
   Scenario: New Discom Member Awarding CFP and Generating LOA.
     Given New User navigate to the Application and logged in as a discom user as initiator as per admin case nine
-    And New User started generating the award and generating the LOA from initiator side as per admin case nine
-    Then Awarding and Generate LOA should be successfull as per admin case nine
-
-  Scenario: Discom Member Uploading the documents from Responder Side.
-    Given User navigate to the Application and logged in as a discom user as Responder as per admin case nine
-    Then Responder Uploading the documents should be successfull as per admin case nine
-
-  Scenario: New Discom Member Genarating Format D as initiator
-    Given New User navigate to the Application and logged in as a discom user as initiator as per admin case nine
-    Then Format D should be successfully Generated from initiator side as per admin case nine
-
-  Scenario: Discom Member Genarating Format D as Responder
-    Given User navigate to the Application and logged in as a discom user as Responder as per admin case nine
-    Then Format D should be successfully Generated from Responder side as per admin case nine
-
-
+    Then Verify the New User unable to generate the award and LOA from initiator side as per admin case nine
 
 
 
@@ -68,10 +52,10 @@ Feature: TC_AD_002
 
   Scenario: New Discom Member Genarating Format D as Responder
     Given New User navigate to the Application and logged in as a discom user as Responder as per admin case nine
-    Then New User Format D should be successfully Generated from Responder side as per admin case nine
+    Then Verify the New User unable to generate Format D from Responder side as per admin case nine
 
 
- Scenario: New Discom Member assigning mew user to him
+ Scenario: New Discom Member assigning new user to him
     Given New user navigates to the application and logs in as an admin as per Admin Case nine
     And New user adds a staff user and assigns rights to the new user as per Admin Case nine
     Then Assigned new user successfully logs in as a staff member of the new member as per Admin Case nine

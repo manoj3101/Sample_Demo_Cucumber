@@ -50,7 +50,7 @@ let cfpNumber;
 //-------------------------------------------------------------------------------------------------------------------------
 Given('New user navigates to the application and initiates the sign-up process as per Admin case five', async function () {
     console.log("------------------------------------------------------------------------------------------------------");
-    console.log("                                            TC_AD_001                                                 ");
+    console.log("                                            TC_AD_005                                                 ");
     console.log("------------------------------------------------------------------------------------------------------");
     await signUp.signup(); //Sign Up
 });
@@ -94,7 +94,7 @@ Given('Admin User navigates to the application and logs in as an admin as per Ad
 Then('Admin approves the new discom user and assigns a subscription plan as per Admin case five', async function () {
 
     await manage_Member.click_Manage_Member(); //Manage Member
-    await manage_Member.approve_Member(org_name);  //Member assitance
+    await manage_Member.approve_Member(org_name, ad_data.AD_05.Manage_member);  //Member assitance
     await member_Assistance.clickMemberAssitance();
     await member_Assistance.subscription_Plan_Selection(org_name); //Subscription Plan Selection
 
@@ -103,7 +103,7 @@ Then('Admin approves the new discom user and assigns a subscription plan as per 
 Then('Admin approves the payment and assigns rights to the new user as per Admin case five', async function () {
 
     await payment_Approval.clickPaymentApproval(); //Payment Approval
-    await payment_Approval.paymentApproval(org_name);
+    await payment_Approval.paymentApproval(org_name, ad_data.AD_05.Payment_approval);
     await manage_Member.click_Manage_Member(); //Manage User - Rights
     await manage_Member.member_rights(org_name, ad_data.AD_05.selectall, ad_data.AD_05.Home, ad_data.AD_05.Registration, ad_data.AD_05.Manage_User, ad_data.AD_05.FormatD, ad_data.AD_05.LOA_Generation, ad_data.AD_05.Award, ad_data.AD_05.Respond, ad_data.AD_05.Initiate);
 });
@@ -111,14 +111,6 @@ Then('Admin approves the payment and assigns rights to the new user as per Admin
 //-------------------------------------------------------------------------------------------------------------------------
 //@                                                     Scenario 3
 //-------------------------------------------------------------------------------------------------------------------------
-Given('Admin navigate to the application and login and fetching the transaction fee formula as per admin case five', async function () {
-
-    await login.login(data.admin, data.admin_password);
-    await transactionFee.click_Transaction_Fee(); //Click the transaction fee 
-    await transactionFee.fetch_Transaction_Fee(data.feeName, ad_data.AD_05.Quantum_value); // Fetch the transaction fee formula
-    await login.logout(); //Logout
-
-});
 
 Given('New User navigate to the Application and logged in as a discom user as initiator as per admin case five', async function () {
 
@@ -126,6 +118,16 @@ Given('New User navigate to the Application and logged in as a discom user as in
     console.log("-----------------------------------------INITIATOR-----------------------------------------");
     await login.login(email_id, password);
 
+});
+
+Given('New User verifying the registration status as per admin case five', async function () {
+
+    //New user verifying  the registration status
+    await home.clickRegistration();
+
+    await home.checkRegistration();
+
+    await home.clickHome();
 });
 
 Given('New User started creating Call for Proposal CFP as an initiator as per admin case five', async function () {
@@ -215,7 +217,7 @@ Then('Response CFP should be Placed successfully as per admin case five', async 
 
     await dashboardCFP.view_Respond(cfpNumber);
 
-    await dashboardCFP.energycalculation_initiator(DashboardCFP.imp_start_date, DashboardCFP.imp_end_date, ad_data.AD_05.imp_start_time, ad_data.AD_05.imp_end_time, ad_data.AD_05.Minimum_QuantumValue);
+    await dashboardCFP.energycalculation_initiator(DashboardCFP.imp_start_date, DashboardCFP.imp_end_date, ad_data.AD_05.imp_start_time, ad_data.AD_05.imp_end_time, ad_data.AD_05.Quantum_value);
 
     await dashboardCFP.energycalculation_responder(DashboardCFP.exp_start_date, DashboardCFP.exp_end_date, ad_data.AD_05.exp_start_time, ad_data.AD_05.exp_end_time, ad_data.AD_05.ReturnValue1);
 
@@ -227,7 +229,7 @@ Then('Response CFP should be Placed successfully as per admin case five', async 
 //@                                                     Scenario 5
 //-------------------------------------------------------------------------------------------------------------------------
 
-Given('New User started generating the award and generating the LOA from initiator side as per admin case five', { timeout: 1200000 }, async function () {
+Given('New User started generating the award and verify that the application does not allow generating the LOA from initiator side as per admin case five', { timeout: 1200000 }, async function () {
 
     await home.clickCallForPropsal();
 
@@ -246,265 +248,24 @@ Given('New User started generating the award and generating the LOA from initiat
 });
 
 
-Then('Awarding and Generate LOA should be successfull as per admin case five', async function () {
+Then('New User can able to award and could not able to generate LOA as per admin case five', async function () {
 
     //cfp carried from initial Step definition
     console.log("Global CFP: " + cfpNumber);
 
     await dashboardCFP.initiatedFeed(cfpNumber);
 
-    await dashboardCFP.energycalculation_initiator(DashboardCFP.imp_start_date, DashboardCFP.imp_end_date, ad_data.AD_05.imp_start_time, ad_data.AD_05.imp_end_time, ad_data.AD_05.Minimum_QuantumValue);
+    await dashboardCFP.energycalculation_initiator(DashboardCFP.imp_start_date, DashboardCFP.imp_end_date, ad_data.AD_05.imp_start_time, ad_data.AD_05.imp_end_time, ad_data.AD_05.Quantum_value);
 
     await dashboardCFP.energycalculation_responder(DashboardCFP.exp_start_date, DashboardCFP.exp_end_date, ad_data.AD_05.exp_start_time, ad_data.AD_05.exp_end_time, ad_data.AD_05.ReturnValue1);
 
-    await dashboardCFP.generateLOA(cfpNumber, DashboardCFP.imp_start_date, DashboardCFP.imp_end_date, ad_data.AD_05.imp_start_time, ad_data.AD_05.imp_end_time, ad_data.AD_05.minQuantumValue1, DashboardCFP.exp_start_date, DashboardCFP.exp_end_date, ad_data.AD_05.exp_start_time, ad_data.AD_05.exp_end_time, ad_data.AD_05.ReturnValue1, ad_data.AD_05.Settlement_Price, ad_data.AD_05.loa_issuance_mins);
-
-    console.log("--------------------Awarding and LOA has generated Successfully-----------------");
-
-    console.log("Initiator Uploaded the LOA documents successfully. \n <<<<<<<<<<<LOA has been uploaded successfully.>>>>>>>>>>>>>>");
+    await dashboardCFP.generateLOA_Access_Denied();
 
 });
 
-///-------------------------------------------------------------------------------------------------------------------------
+
+//-------------------------------------------------------------------------------------------------------------------------
 //@                                                     Scenario 6
-//-------------------------------------------------------------------------------------------------------------------------
-
-
-
-Then('Responder Uploading the documents should be successfull as per admin case five', async function () {
-
-    await loaManagement.loaGeneration();
-
-    console.log("Global CFP: " + cfpNumber);
-
-    await loaManagement.uploadDocument(cfpNumber, DashboardCFP.imp_start_date, DashboardCFP.imp_end_date, ad_data.AD_05.imp_start_time, ad_data.AD_05.imp_end_time, ad_data.AD_05.Quantum_value, DashboardCFP.exp_start_date, DashboardCFP.exp_end_date, ad_data.AD_05.exp_start_time, ad_data.AD_05.exp_end_time, ad_data.AD_05.ReturnValue1, ad_data.AD_05.Settlement_Price, ad_data.AD_05.loa_acceptance_mins);
-
-    console.log("Responder Uploaded the documents successfully  \n <<<<<<<<<<<LOA has been uploaded successfully.>>>>>>>>>>>>>>");
-
-});
-
-
-//-------------------------------------------------------------------------------------------------------------------------
-//@                                                     Scenario 7
-//-------------------------------------------------------------------------------------------------------------------------
-
-Then('Format D should be successfully Generated from initiator side as per admin case five', async function () {
-
-    //cfp carried from initial Step definition
-    console.log("Global CFP: " + cfpNumber);
-
-    await loaManagement.loaGeneration();
-
-    await loaManagement.action(cfpNumber);
-
-    await loaManagement.formatD(ad_data.AD_05.GTAM, ad_data.AD_05.source_of_generation, ad_data.AD_05.RPO, ad_data.AD_05.TGNA, DashboardCFP.imp_start_date, DashboardCFP.imp_end_date, ad_data.AD_05.imp_start_time, ad_data.AD_05.imp_end_time, ad_data.AD_05.Quantum_value);
-
-});
-
-//-------------------------------------------------------------------------------------------------------------------------
-//@                                                     Scenario 8
-//-------------------------------------------------------------------------------------------------------------------------
-
-Then('Format D should be successfully Generated from Responder side as per admin case five', async function () {
-
-    //cfp carried from initial Step definition
-    console.log("Global CFP: " + cfpNumber);
-
-    await loaManagement.loaGeneration();
-
-    await loaManagement.action_FormatD(cfpNumber);
-
-    await loaManagement.formatD(ad_data.AD_05.GTAM, ad_data.AD_05.source_of_generation, ad_data.AD_05.RPO, ad_data.AD_05.TGNA, DashboardCFP.imp_start_date, DashboardCFP.imp_end_date, ad_data.AD_05.imp_start_time, ad_data.AD_05.imp_end_time, ad_data.AD_05.Quantum_value);
-
-});
-
-//-------------------------------------------------------------------------------------------------------------------------
-//@                                                     Scenario 9
-//-------------------------------------------------------------------------------------------------------------------------
-
-Given('User navigate to the Application and logged in as a discom user as initiator as per admin case five', async function () {
-
-    //Old User as a Inititator
-    console.log("-----------------------------------------INITIATOR-----------------------------------------");
-    await login.login(data.user2, data.user2_password);
-
-});
-
-Given('User started creating Call for Proposal CFP as an initiator as per admin case five', async function () {
-
-    await home.clickCallForPropsal();
-
-    await dashboardCFP.clickCreateCFP(ad_data.AD_05.chooseCFP);
-
-    await dashboardCFP.powerSwapping(ad_data.AD_05.Power_swapping);
-
-    await dashboardCFP.firstChoice(ad_data.AD_05.Fisrt_choice);
-
-    await dashboardCFP.resultPublish(ad_data.AD_05.Result_Published);
-
-    await dashboardCFP.importPeriod(ad_data.AD_05.Quantum_value, ad_data.AD_05.imp_start_date, ad_data.AD_05.imp_end_date, ad_data.AD_05.imp_start_time, ad_data.AD_05.imp_end_time);
-
-    await dashboardCFP.minimumQuantum(ad_data.AD_05.Minimum_Quantum, ad_data.AD_05.Minimum_QuantumValue);
-
-    await dashboardCFP.exportPeriod(ad_data.AD_05.exp_start_date, ad_data.AD_05.exp_end_date, ad_data.AD_05.exp_start_time, ad_data.AD_05.exp_end_time);
-
-    await dashboardCFP.publishing_time();
-
-    await dashboardCFP.response_validityTime(ad_data.AD_05.response_days, ad_data.AD_05.response_hours, ad_data.AD_05.response_mins);
-
-    await dashboardCFP.awarding_time(ad_data.AD_05.award_days, ad_data.AD_05.award_hours, ad_data.AD_05.award_mins);
-
-    await dashboardCFP.loa_Issuance_time(ad_data.AD_05.loa_issuance_days, ad_data.AD_05.loa_issuance_hours, ad_data.AD_05.loa_issuance_mins);
-
-    await dashboardCFP.loa_Acceptance_time(ad_data.AD_05.loa_acceptance_days, ad_data.AD_05.loa_acceptance_hours, ad_data.AD_05.loa_acceptance_mins);
-
-    await dashboardCFP.otherDetails(ad_data.AD_05.index, ad_data.AD_05.Settlement_Price);
-
-    await dashboardCFP.commentBox(ad_data.AD_05.query_Box);
-
-    await dashboardCFP.ceilingBaseReturn(ad_data.AD_05.Ceiling_Base_Return, ad_data.AD_05.Ceiling_Base_Return_value);
-
-    await dashboardCFP.selectResponder(ad_data.AD_05.multiple_responder, org_name);
-
-    await dashboardCFP.custom_Guests(ad_data.AD_05.custom_Guests);
-
-    await dashboardCFP.remarks(ad_data.AD_05.remarks);
-
-});
-
-//-------------------------------------------------------------------------------------------------------------------------
-//@                                                     Scenario 10
-//-------------------------------------------------------------------------------------------------------------------------
-
-Given('New User navigate to the Application and logged in as a discom user as Responder as per admin case five', async function () {
-
-    //New user as a Responder
-    console.log("-----------------------------------------RESPONDER-----------------------------------------");
-    await login.login(email_id, password);
-
-
-});
-
-Given('New User started placing Response to the CFP as per admin case five', { timeout: 120 * 1000 }, async function () {
-
-    await home.clickCallForPropsal();
-
-    await dashboardCFP.clickresponder();
-
-    await pageFixture.page.waitForTimeout(90 * 1000);
-
-});
-
-Then('New User Response CFP should be Placed successfully as per admin case five', async function () {
-
-    console.log("Global CFP: " + cfpNumber);
-
-    await dashboardCFP.place_Respond(cfpNumber, ad_data.AD_05.minQuantumValue1, ad_data.AD_05.ReturnValue1);
-
-    await dashboardCFP.view_Respond(cfpNumber);
-
-    await dashboardCFP.energycalculation_initiator(DashboardCFP.imp_start_date, DashboardCFP.imp_end_date, ad_data.AD_05.imp_start_time, ad_data.AD_05.imp_end_time, ad_data.AD_05.Minimum_QuantumValue);
-
-    await dashboardCFP.energycalculation_responder(DashboardCFP.exp_start_date, DashboardCFP.exp_end_date, ad_data.AD_05.exp_start_time, ad_data.AD_05.exp_end_time, ad_data.AD_05.ReturnValue1);
-
-});
-
-
-//-------------------------------------------------------------------------------------------------------------------------
-//@                                                     Scenario 11
-//-------------------------------------------------------------------------------------------------------------------------
-
-Given('User started generating the award and generating the LOA from initiator side as per admin case five', { timeout: 1200000 }, async function () {
-
-    await home.clickCallForPropsal();
-
-    // //wait time for 15 minutes 
-    await pageFixture.page.waitForTimeout(885000);
-
-    console.log("Wait time is over Awarding CFP has started.........");
-
-    //cfp carried from initial Step definition
-    console.log("Global CFP: " + cfpNumber);
-
-    await dashboardCFP.initiatedFeed(cfpNumber);
-
-    await dashboardCFP.generateAward();
-
-});
-
-Then('User Awarding and Generate LOA should be successfull as per admin case five', async function () {
-
-    //cfp carried from initial Step definition
-    console.log("Global CFP: " + cfpNumber);
-
-    await dashboardCFP.initiatedFeed(cfpNumber);
-
-    await dashboardCFP.energycalculation_initiator(DashboardCFP.imp_start_date, DashboardCFP.imp_end_date, ad_data.AD_05.imp_start_time, ad_data.AD_05.imp_end_time, ad_data.AD_05.Minimum_QuantumValue);
-
-    await dashboardCFP.energycalculation_responder(DashboardCFP.exp_start_date, DashboardCFP.exp_end_date, ad_data.AD_05.exp_start_time, ad_data.AD_05.exp_end_time, ad_data.AD_05.ReturnValue1);
-
-    await dashboardCFP.generateLOA(cfpNumber, DashboardCFP.imp_start_date, DashboardCFP.imp_end_date, ad_data.AD_05.imp_start_time, ad_data.AD_05.imp_end_time, ad_data.AD_05.minQuantumValue1, DashboardCFP.exp_start_date, DashboardCFP.exp_end_date, ad_data.AD_05.exp_start_time, ad_data.AD_05.exp_end_time, ad_data.AD_05.ReturnValue1, ad_data.AD_05.Settlement_Price, ad_data.AD_05.loa_issuance_mins);
-
-    console.log("--------------------Awarding and LOA has generated Successfully-----------------");
-
-    console.log("Initiator Uploaded the LOA documents successfully. \n <<<<<<<<<<<LOA has been uploaded successfully.>>>>>>>>>>>>>>");
-
-});
-
-
-//-------------------------------------------------------------------------------------------------------------------------
-//@                                                     Scenario 12
-//-------------------------------------------------------------------------------------------------------------------------
-
-
-Then('New User Responder Uploading the documents should be successfull as per admin case five', async function () {
-
-    await loaManagement.loaGeneration();
-
-    console.log("Global CFP: " + cfpNumber);
-
-    await loaManagement.uploadDocument(cfpNumber, DashboardCFP.imp_start_date, DashboardCFP.imp_end_date, ad_data.AD_05.imp_start_time, ad_data.AD_05.imp_end_time, ad_data.AD_05.Quantum_value, DashboardCFP.exp_start_date, DashboardCFP.exp_end_date, ad_data.AD_05.exp_start_time, ad_data.AD_05.exp_end_time, ad_data.AD_05.ReturnValue1, ad_data.AD_05.Settlement_Price, ad_data.AD_05.loa_acceptance_mins);
-
-    console.log("Responder Uploaded the documents successfully  \n <<<<<<<<<<<LOA has been uploaded successfully.>>>>>>>>>>>>>>");
-
-});
-
-
-//-------------------------------------------------------------------------------------------------------------------------
-//@                                                     Scenario 13
-//-------------------------------------------------------------------------------------------------------------------------
-Then('User Format D should be successfully Generated from initiator side as per admin case five', async function () {
-
-    //cfp carried from initial Step definition
-    console.log("Global CFP: " + cfpNumber);
-
-    await loaManagement.loaGeneration();
-
-    await loaManagement.action(cfpNumber);
-
-    await loaManagement.formatD(ad_data.AD_05.GTAM, ad_data.AD_05.source_of_generation, ad_data.AD_05.RPO, ad_data.AD_05.TGNA, DashboardCFP.imp_start_date, DashboardCFP.imp_end_date, ad_data.AD_05.imp_start_time, ad_data.AD_05.imp_end_time, ad_data.AD_05.Quantum_value);
-
-});
-//-------------------------------------------------------------------------------------------------------------------------
-//@                                                     Scenario 14
-//-------------------------------------------------------------------------------------------------------------------------
-
-Then('New User Format D should be successfully Generated from Responder side as per admin case five', async function () {
-
-    //cfp carried from initial Step definition
-    console.log("Global CFP: " + cfpNumber);
-
-    await loaManagement.loaGeneration();
-
-    await loaManagement.action_FormatD(cfpNumber);
-
-    await loaManagement.formatD(ad_data.AD_05.GTAM, ad_data.AD_05.source_of_generation, ad_data.AD_05.RPO, ad_data.AD_05.TGNA, DashboardCFP.imp_start_date, DashboardCFP.imp_end_date, ad_data.AD_05.imp_start_time, ad_data.AD_05.imp_end_time, ad_data.AD_05.Quantum_value);
-
-});
-
-
-//-------------------------------------------------------------------------------------------------------------------------
-//@                                                     Scenario 15
 //-------------------------------------------------------------------------------------------------------------------------
 
 Given('New user navigates to the application and logs in as an admin as per Admin Case five', async function () {
@@ -546,3 +307,88 @@ Then('Assigned new user successfully logs in as a staff member of the new member
     console.log("--------------------Assigned new user successfully logged In -----------------");
 
 });
+
+
+//-------------------------------------------------------------------------------------------------------------------------
+//@                                                     Scenario 7
+//-------------------------------------------------------------------------------------------------------------------------
+
+Given('User navigate to the Application and logged in as a discom user as initiator as per admin case five', async function () {
+
+    //Old User as a Inititator
+    console.log("-----------------------------------------INITIATOR-----------------------------------------");
+    await login.login(data.user2, data.user2_password);
+
+});
+
+Given('User started creating Call for Proposal CFP as an initiator as per admin case five', async function () {
+
+    await home.clickCallForPropsal();
+
+    await dashboardCFP.clickCreateCFP(ad_data.AD_05.chooseCFP1);
+
+    await dashboardCFP.powerSwapping(ad_data.AD_05.Power_swapping1);
+
+    await dashboardCFP.firstChoice(ad_data.AD_05.Fisrt_choice1);
+
+    await dashboardCFP.resultPublish(ad_data.AD_05.Result_Published1);
+
+    await dashboardCFP.importPeriod(ad_data.AD_05.Quantum_value1, ad_data.AD_05.imp_start_date1, ad_data.AD_05.imp_end_date1, ad_data.AD_05.imp_start_time1, ad_data.AD_05.imp_end_time1);
+
+    await dashboardCFP.minimumQuantum(ad_data.AD_05.Minimum_Quantum1, ad_data.AD_05.Minimum_QuantumValue1);
+
+    await dashboardCFP.exportPeriod(ad_data.AD_05.exp_start_date1, ad_data.AD_05.exp_end_date1, ad_data.AD_05.exp_start_time1, ad_data.AD_05.exp_end_time1);
+
+    await dashboardCFP.publishing_time();
+
+    await dashboardCFP.response_validityTime(ad_data.AD_05.response_days1, ad_data.AD_05.response_hours1, ad_data.AD_05.response_mins1);
+
+    await dashboardCFP.awarding_time(ad_data.AD_05.award_days1, ad_data.AD_05.award_hours1, ad_data.AD_05.award_mins1);
+
+    await dashboardCFP.loa_Issuance_time(ad_data.AD_05.loa_issuance_days1, ad_data.AD_05.loa_issuance_hours1, ad_data.AD_05.loa_issuance_mins1);
+
+    await dashboardCFP.loa_Acceptance_time(ad_data.AD_05.loa_acceptance_days1, ad_data.AD_05.loa_acceptance_hours1, ad_data.AD_05.loa_acceptance_mins1);
+
+    await dashboardCFP.otherDetails(ad_data.AD_05.index1, ad_data.AD_05.Settlement_Price1);
+
+    await dashboardCFP.commentBox(ad_data.AD_05.query_Box1);
+
+    await dashboardCFP.ceilingBaseReturn(ad_data.AD_05.Ceiling_Base_Return1, ad_data.AD_05.Ceiling_Base_Return_value1);
+
+    await dashboardCFP.selectResponder(ad_data.AD_05.multiple_responder1, org_name);
+
+    await dashboardCFP.custom_Guests(ad_data.AD_05.custom_Guests1);
+
+    await dashboardCFP.remarks(ad_data.AD_05.remarks1);
+
+});
+
+//-------------------------------------------------------------------------------------------------------------------------
+//@                                                     Scenario 8
+//-------------------------------------------------------------------------------------------------------------------------
+
+Given('New User navigate to the Application and logged in as a discom user as Responder as per admin case five', async function () {
+
+    //New user as a Responder
+    console.log("-----------------------------------------RESPONDER-----------------------------------------");
+    await login.login(email_id, password);
+
+
+});
+
+Given('New User can not Response CFP successfully as per admin case five', { timeout: 140 * 1000 }, async function () {
+
+    await home.clickCallForPropsal();
+
+    await dashboardCFP.clickresponder();
+
+    await pageFixture.page.waitForTimeout(90 * 1000);
+
+    console.log("Global CFP: " + cfpNumber);
+
+    await dashboardCFP.place_Respond(cfpNumber, ad_data.AD_05.minQuantumValue11, ad_data.AD_05.ReturnValue11);
+});
+
+
+
+

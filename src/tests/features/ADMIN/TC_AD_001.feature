@@ -11,7 +11,6 @@ Feature: TC_AD_001
     Then Admin approves the payment and assigns rights to the new user as per Admin case one
 
   Scenario: New Discom Member Create CFP and Publishing the CFP.
-    Given Admin navigate to the application and login and fetching the transaction fee formula as per admin case one
     Given New User navigate to the Application and logged in as a discom user as initiator as per admin case one
     And New User started creating Call for Proposal CFP as an initiator as per admin case one
     Then Call for Proposal CFP should be Published successfully as per admin case one
@@ -20,6 +19,16 @@ Feature: TC_AD_001
     Given User navigate to the Application and logged in as a discom user as Responder as per admin case one
     And User started placing Response to the CFP as per admin case one
     Then Response CFP should be Placed successfully as per admin case one
+
+  Scenario: Discom Member Responding to the  CFP as a Responder two.
+    Given User navigate to the Application and logged in as a discom user as Responder two as per admin case one
+    And Responder two started placing Response to the CFP as per admin case one
+    Then Responder two Response CFP should be Placed successfully as per admin case one
+
+  Scenario: Discom Member Responding to the  CFP as a Responder three.
+    Given User navigate to the Application and logged in as a discom user as Responder three as per admin case one
+    And Responder three started placing Response to the CFP as per admin case one
+    Then Responder three Response CFP should be Placed successfully as per admin case one
 
   Scenario: New Discom Member Awarding CFP and Generating LOA.
     Given New User navigate to the Application and logged in as a discom user as initiator as per admin case one
@@ -41,6 +50,7 @@ Feature: TC_AD_001
 
 
 
+
   Scenario: Discom Member Create CFP and Publishing the CFP.
     Given User navigate to the Application and logged in as a discom user as initiator as per admin case one
     And User started creating Call for Proposal CFP as an initiator as per admin case one
@@ -50,6 +60,16 @@ Feature: TC_AD_001
     Given New User navigate to the Application and logged in as a discom user as Responder as per admin case one
     And New User started placing Response to the CFP as per admin case one
     Then New User Response CFP should be Placed successfully as per admin case one
+
+  Scenario: Discom Member Responding to the  CFP as a Responder two.
+    Given User navigate to the Application and logged in as a discom user as Responder two as per admin case one
+    And Responder two started placing Response to the CFP as per admin case one
+    Then Responder two Response CFP should be Placed successfully as per admin case one
+
+  Scenario: Discom Member Responding to the  CFP as a Responder three.
+    Given User navigate to the Application and logged in as a discom user as Responder three as per admin case one
+    And Responder three started placing Response to the CFP as per admin case one
+    Then Responder three Response CFP should be Placed successfully as per admin case one
 
   Scenario: Discom Member Awarding CFP and Generating LOA.
     Given User navigate to the Application and logged in as a discom user as initiator as per admin case one
@@ -68,7 +88,7 @@ Feature: TC_AD_001
     Given New User navigate to the Application and logged in as a discom user as Responder as per admin case one
     Then New User Format D should be successfully Generated from Responder side as per admin case one
 
-  Scenario: New Discom Member assigning mew user to him
+  Scenario: New Discom Member assigning mew user to him through Manage user.
     Given New user navigates to the application and logs in as an admin as per Admin Case One
     And New user adds a staff user and assigns rights to the new user as per Admin Case One
     Then Assigned new user successfully logs in as a staff member of the new member as per Admin Case One
