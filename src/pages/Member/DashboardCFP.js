@@ -26,13 +26,6 @@ const year = currentDate.getFullYear();
 
 class DashboardCFP {
 
-    //Constructor
-    // constructor(page, context, browser) {
-    //     this.page = page;
-    //     this.context = context;
-    //     this.browser = browser;        
-    // }
-
 
     //variable
     static Utility_1 = null;
@@ -112,7 +105,7 @@ class DashboardCFP {
         // Create a TabSwitcher instance
         const tabSwitch = new tabSwitcher();
         await tabSwitch.switchToTab("cfp");
-        await pageFixture.page.waitForTimeout(2000);
+        await pageFixture.page.waitForTimeout(4000);
         await pageFixture.page.getByRole('button', { name: /Create New CFP/i }).click({ timeout: 50000 });
         switch (chooseCFP) {
             case "Quick CFP":
@@ -168,7 +161,7 @@ class DashboardCFP {
         // Calculating dates
         var importStartDate = addDays(currentDate, impStartDate);
         var importEndDate = addDays(currentDate, impEndDate);
-        
+
 
         // Function to format date to 'YYYY-MM-DD' format
         var formatDate = function (date) {
@@ -330,7 +323,7 @@ class DashboardCFP {
         }
         else {
             await pageFixture.page.check(this.ceiling_baseNo);
-            
+
         }
         //await pageFixture.page.locator(this.showHighlight).click();
         await pageFixture.page.waitForTimeout(3000);
@@ -375,7 +368,7 @@ class DashboardCFP {
     }
 
     //Transaction fee verification
-  
+
 
     //next & publish
     async publish() {
@@ -394,7 +387,7 @@ class DashboardCFP {
             const CFP_N = await pageFixture.page.locator(this.cfpNumber).innerText();
 
             this.CFP_Num = CFP_N;
-           
+
         }
 
     }
@@ -405,11 +398,12 @@ class DashboardCFP {
     async clickresponder() {
         const tabSwitch = new tabSwitcher();
         await tabSwitch.switchToTab("cfp");
+        await pageFixture.page.waitForTimeout(3000);
         await pageFixture.page.click(this.responder_tab, { timeout: 40000 });
     }
 
 
-   
+
     //Place Respond (Responder side)
     async place_Respond(CFP, minQuantumValue1, ReturnValue1) {
 
@@ -418,15 +412,15 @@ class DashboardCFP {
         await pageFixture.page.click(this.responder_tab);
         await pageFixture.page.waitForTimeout(3000);
         const LiveCFP = await pageFixture.page.$$("//div[@class='d-flex low-time-strip']");
-        
+
         const lists = await pageFixture.page.$$("//b[text()='CFP ID ']/..");
         for (let i = 0; i < lists.length; i++) {
             const textContent = await lists[i].textContent();
             if (textContent.includes(CFP)) {
-                
+
                 //(//span[contains(@class,'digital-time')]/following-sibling::div/button)[1]
                 await pageFixture.page.locator("(//span[contains(@class,'digital-time')]/following-sibling::div/button)[" + (i + 1) + "]").click();
-                
+
                 break;
             }
             else {
@@ -444,8 +438,6 @@ class DashboardCFP {
             await pageFixture.page.locator("//input[@formcontrolname='min_quantum']").fill('');
             await pageFixture.page.locator("//input[@formcontrolname='min_quantum']").type(minQuantumValue1);
 
-        } else {
-            console.log("--------------------X No Min Quantum X----------------------");
         }
 
         //If it has Base/ceiling return enter the value and place the 
@@ -510,12 +502,12 @@ class DashboardCFP {
     //view response
     async view_Respond(CFP) {
         const LiveCFP = await pageFixture.page.$$("//div[@class='d-flex low-time-strip']");
-       
+
         const lists = await pageFixture.page.$$("//b[text()='CFP ID ']/..");
-        
+
         for (let i = 0; i < lists.length; i++) {
             const textContent = await lists[i].textContent();
-          
+
             if (textContent.includes(CFP)) {
                 // await pageFixture.page.locator("(//button[contains(text(),'View Response')])[" + (i + 1) + "]").click();
                 await pageFixture.page.locator("(//span[contains(@class,'digital-time')]/following-sibling::div/button)[" + (i + 1) + "]").click();
@@ -534,16 +526,16 @@ class DashboardCFP {
         const tabSwitch = new tabSwitcher();
         await tabSwitch.switchToTab("cfp");
         await pageFixture.page.waitForTimeout(3000);
-      
+
         const lists = await pageFixture.page.$$("//b[contains(text(),'CFP ID')]/..");
-              for (let i = 0; i < lists.length; i++) {
+        for (let i = 0; i < lists.length; i++) {
             const textContent = await lists[i].textContent();
-           
+
             if (textContent.includes(CFP)) {
-                
+
                 await pageFixture.page.locator("(//button//div[contains(@class,'icon-bg position-relative')])[" + (i + 1) + "]").click();
                 await pageFixture.page.waitForTimeout(2000);
-               
+
                 break;
             }
             else {
@@ -582,22 +574,22 @@ class DashboardCFP {
 
         //Calculation part 
         const energy_kwh = (days + 1) * time * quantum * 1000;
-       
+
 
         //Assertion 
         //import 
         const content1 = await pageFixture.page.locator("(//h5[contains(text(),'Period')])[1]").textContent();
         const Energy1 = await pageFixture.page.locator("(//td[7])[1]").textContent();
         // console.log("<<<<<<<<<<<<<<<<<<<<" + content1 + ">>>>>>>>>>>>>>>>>>>>>>\n");
-        
+
         const numericEnergy1 = parseFloat(Energy1);
 
         // expect.soft(energy_kwh).toBe(numericEnergy1);
 
         if (energy_kwh === numericEnergy1) {
-            console.log(` ✔ Passed Actual Energy in KWH : ${energy_kwh} is equal to the Expected Energy in KWH : ${numericEnergy1}\n`);
+            console.log(` ✔ Passed Expected Energy in KWH : ${energy_kwh} is equal to the Actual Energy in KWH : ${numericEnergy1}\n`);
         } else {
-            console.log(` X Failed  Actual Energy in KWH : ${energy_kwh} is not equal to the Expected Energy in KWH : ${numericEnergy1}\n`);
+            console.log(` X Failed Expected Energy in KWH : ${energy_kwh} is not equal to the Actual Energy in KWH : ${numericEnergy1}\n`);
         }
 
         //Declaring as a  global 
@@ -654,14 +646,14 @@ class DashboardCFP {
         // expect.soft(reverse_energy).toEqual(numericEnergy1);
 
         if (reverse_energy === numericEnergy1) {
-            console.log(` ✔ Passed Actual Energy in KWH : ${reverse_energy} is equal to the Expected Energy in KWH : ${numericEnergy1}`);
+            console.log(` ✔ Passed Expected Energy in KWH : ${reverse_energy} is equal to the Actual Energy in KWH : ${numericEnergy1}`);
         } else {
-            console.log(` X Failed  Actual Energy in KWH : ${reverse_energy} is not equal to the Expected Energy in KWH : ${numericEnergy1}`);
+            console.log(` X Failed  Expected Energy in KWH : ${reverse_energy} is not equal to the Actual Energy in KWH : ${numericEnergy1}`);
         }
         if (roundedQuantum === numericquantum) {
-            console.log(` ✔ Passed Actual Quantum in MW : ${roundedQuantum} is equal to the Expected Quantum in MW : ${numericquantum}\n`);
+            console.log(` ✔ Passed Expected Quantum in MW : ${roundedQuantum} is equal to the Actual Quantum in MW : ${numericquantum}\n`);
         } else {
-            console.log(` X Failed Actual Quantum in MW : ${roundedQuantum} is not equal to the Expected Quantum in MW : ${numericquantum}\n`);
+            console.log(` X Failed Expected Quantum in MW : ${roundedQuantum} is not equal to the Actual Quantum in MW : ${numericquantum}\n`);
         }
 
     }
@@ -711,7 +703,7 @@ class DashboardCFP {
     //Generate Award
     async generateAward() {
         const returns = await pageFixture.page.$$("//table[contains(@class,'table overflow-hidden rounded')]//tbody//tr[1]/td[4]//div");
-       
+
         // Initialize an empty array to store objects with index and number
         let numbersArray = [];
 
@@ -757,15 +749,11 @@ class DashboardCFP {
             expect(awarded).toContain("Response Accepted Successfully");
             console.log("              ✔ Response Accepted Successfully ✔          ");
         }
-        else {
-            console.log("------------ X No Award Icon X ------------");
-        }
-
     }
 
     async unableToGenerateAward() {
         const returns = await pageFixture.page.$$("//table[contains(@class,'table overflow-hidden rounded')]//tbody//tr[1]/td[4]//div");
-        
+
         // Initialize an empty array to store objects with index and number
         let numbersArray = [];
 
@@ -775,7 +763,7 @@ class DashboardCFP {
             const returnsText = await returns[i].innerText();
             // Remove the % symbol and convert to number
             const numberValue = parseFloat(returnsText.replace('%', ''));
-           
+
             // Create an object containing both index and number
             const obj = {
                 index: i,
@@ -811,10 +799,6 @@ class DashboardCFP {
             expect(textMsg).toContain("You don't have privilege to perform this action");
 
         }
-        else {
-            console.log("------------ X No Award Icon X ------------");
-        }
-
     }
 
 
@@ -830,9 +814,6 @@ class DashboardCFP {
             await LOA.click();
             await pageFixture.page.getByRole('button', { name: /Yes/i }).click();
             console.log("-------------Successfully Navigated to Generate LOA Page----------");
-        }
-        else {
-            console.log("-------------No Generate LOA is Visible----------");
         }
 
         //switch to the tab
@@ -919,11 +900,11 @@ class DashboardCFP {
         const line_15 = `Dear	Sir,`;
         const line_16 = `With	reference	to	the	above,	we	are	pleased	to	place	Letter	of	Award	(LoA)	in	favour	of	${DashboardCFP.Utility_2},	as	per`;
         const line_17 = `below	mentioned	arrangement.`;
-        const line_18 = `Supply	of	Power	by	${DashboardCFP.Utility_2}	to	${DashboardCFP.Utility_1}`;
+        const line_18 = `Supply	of	Power	by	${DashboardCFP.Utility_1}	to	${DashboardCFP.Utility_2}`;
         const line_19 = `UtilityPeriodDuration	(Hrs.)Quantum	(MW)`;
         const line_20 = `${DashboardCFP.Utility_1}${imp_start_date.split('-').reverse().join('-')}	to	${imp_end_date.split('-').reverse().join('-')}${imp_start_time}	-	${imp_end_time}${quantum}`;
 
-        const line_21 = `Return	of	Power	from	${DashboardCFP.Utility_1}	to	${DashboardCFP.Utility_2}`;
+        const line_21 = `Return	of	Power	from	${DashboardCFP.Utility_2}	to	${DashboardCFP.Utility_1}`;
         const line_22 = `UtilityPeriod`;
         const line_23 = `Duration`;
         const line_24 = `(Hrs.)`;
@@ -985,9 +966,6 @@ class DashboardCFP {
         if (DashboardCFP.loaIssuanceMins === addedLOAIssuanceTime) {
             console.log(`Contarct Awarding time is added to Loa Issuance Time ${DashboardCFP.loaIssuanceMins} equals ${addedLOAIssuanceTime}`);
         }
-        else {
-            console.log(`Contarct Awarding time is not added or equal to Loa Issuance Time`)
-        }
 
         await pageFixture.page.waitForTimeout(5000);//Wait until document verification 
         //Need to verify the time.....
@@ -1017,9 +995,7 @@ class DashboardCFP {
             await pageFixture.page.getByRole('button', { name: /Yes/i }).click();
             console.log("-------------Successfully Navigated to Generate LOA Page----------");
         }
-        else {
-            console.log("-------------No Generate LOA is Visible----------");
-        }
+        
 
         //switch to the tab
         const tabSwitch = new tabSwitcher();
@@ -1053,9 +1029,7 @@ class DashboardCFP {
             await pageFixture.page.getByRole('button', { name: /Yes/i }).click();
             console.log("-------------Successfully Navigated to Generate LOA Page----------");
         }
-        else {
-            console.log("-------------No Generate LOA is Visible----------");
-        }
+
 
         //switch to the tab
         const tabSwitch = new tabSwitcher();
